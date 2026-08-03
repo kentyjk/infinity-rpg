@@ -1,0 +1,70 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Assets/**'
+      - 'Packages/**'
+      - 'ProjectSettings/**'
+      - '.github/workflows/build-apk.yml'
+  workflow_dispatch:  # Manual trigger from GitHub UI
+
+jobs:
+  build-android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      # --- Checkout ---
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # --- Cache Unity Library ---
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-Android-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-Android-
+
+      # --- Build with GameCI ---
+      - name: Build Android APK
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+        with:
+          targetPlatform: Android
+          unityVersion: 2022.3.55f1
+          buildMethod: InfinityRPG.Editor.BuildScript.BuildAndroid
+          versioning: Semantic
+          androidAppBundle: false
+          androidKeystoreName: release.keystore
+          androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          androidKeyaliasName: ${{ secrets.ANDROID_KEYALIAS_NAME }}
+          androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
+          androidTargetSdkVersion: 34
+
+      # --- Upload APK artifact ---
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: InfinityRPG-APK
+          path: build/Android/*.apk
+          retention-days: 30
+
+      # --- Create Release (on tag push) ---
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/Android/*.apk
+          generate_release_notes: true
