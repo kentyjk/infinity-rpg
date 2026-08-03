@@ -52,7 +52,7 @@ jobs:
           targetPlatform: Android
           unityVersion: 2022.3.55f1
           buildMethod: InfinityRPG.Editor.BuildScript.BuildAndroid
-          versioning: Semantic
+          versioning: None
           androidAppBundle: false
           androidKeystoreName: release.keystore
           androidKeystoreBase64: ${{ env.ANDROID_KEYSTORE_BASE64 }}
