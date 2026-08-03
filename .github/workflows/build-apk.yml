@@ -33,13 +33,21 @@ jobs:
           restore-keys: |
             Library-Android-
 
+      # --- Generate keystore (auto) ---
+      - name: Generate Android Keystore
+        run: |
+          keytool -genkey -v -keystore release.keystore -alias infinityrpg \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android \
+            -dname "CN=InfinityRPG,OU=Dev,O=InfinityRPG,L=SG,C=SG"
+          echo "ANDROID_KEYSTORE_BASE64=$(base64 -w0 release.keystore)" >> $GITHUB_ENV
+
       # --- Build with GameCI ---
       - name: Build Android APK
         uses: game-ci/unity-builder@v4
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
           targetPlatform: Android
           unityVersion: 2022.3.55f1
@@ -47,10 +55,10 @@ jobs:
           versioning: Semantic
           androidAppBundle: false
           androidKeystoreName: release.keystore
-          androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
-          androidKeyaliasName: ${{ secrets.ANDROID_KEYALIAS_NAME }}
-          androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
+          androidKeystoreBase64: ${{ env.ANDROID_KEYSTORE_BASE64 }}
+          androidKeystorePass: android
+          androidKeyaliasName: infinityrpg
+          androidKeyaliasPass: android
           androidTargetSdkVersion: 34
 
       # --- Upload APK artifact ---
