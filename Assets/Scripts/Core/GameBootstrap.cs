@@ -58,6 +58,25 @@ namespace InfinityRPG
             gmGo.AddComponent<MapManager>();
             gmGo.AddComponent<EquipmentManager>();
 
+            // Ensure GameConfig exists (create default if missing)
+            if (gm.Config == null)
+            {
+                Debug.Log("[Bootstrap] No GameConfig found — creating default...");
+                var config = ScriptableObject.CreateInstance<GameConfig>();
+                config.mapWidth = 10;
+                config.mapHeight = 12;
+                config.tileSize = 1f;
+                config.statPointsPerLevel = 4;
+                config.expCurveMultiplier = 1.35f;
+                config.baseExpToNext = 80;
+                config.bpMinThreshold = 0.3f;
+                config.damageVariance = 0.3f;
+                config.maxBattleTurns = 100;
+                config.startingWeaponIds = new[] { "w0" };
+                config.startingArmorIds = new[] { "a0" };
+                gm.SetConfig(config);
+            }
+
             // 3. EventSystem
             if (FindAnyObjectByType<EventSystem>() == null)
             {
@@ -162,6 +181,7 @@ namespace InfinityRPG
 
         private void CreateBattleLog(Transform parent, UIManager uiManager)
         {
+            // Background (Image)
             var logGo = new GameObject("BattleLog");
             logGo.transform.SetParent(parent);
             var rt = logGo.AddComponent<RectTransform>();
@@ -169,18 +189,25 @@ namespace InfinityRPG
             rt.anchorMax = new Vector2(0.98f, 0.87f);
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
-
             var bg = logGo.AddComponent<Image>();
             bg.color = new Color(0.07f, 0.07f, 0.12f, 0.9f);
 
-            var text = logGo.AddComponent<Text>();
+            // Text (child — can't be on same GO as Image)
+            var textGo = new GameObject("BattleLogText");
+            textGo.transform.SetParent(logGo.transform);
+            var textRt = textGo.AddComponent<RectTransform>();
+            textRt.anchorMin = Vector2.zero;
+            textRt.anchorMax = Vector2.one;
+            textRt.offsetMin = Vector2.zero;
+            textRt.offsetMax = Vector2.zero;
+            var text = textGo.AddComponent<Text>();
             text.text = "⚔️ Ready — tap Start Run to begin!";
             text.fontSize = 22;
             text.color = new Color(0.8f, 0.8f, 0.9f);
             text.alignment = TextAnchor.MiddleCenter;
             text.raycastTarget = false;
 
-            // Wire to UIManager (public field for runtime wiring)
+            // Wire to UIManager
             var uiMgr = parent.GetComponent<UIManager>();
             if (uiMgr != null)
                 uiMgr.battleLogText = text;

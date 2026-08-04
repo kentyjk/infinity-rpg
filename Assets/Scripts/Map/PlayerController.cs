@@ -25,8 +25,8 @@ namespace InfinityRPG
 
         private void Update()
         {
-            // Only handle input during exploration
-            if (gameManager.CurrentGameState != GameState.Exploring) return;
+            if (gameManager == null) gameManager = GameManager.Instance;
+            if (gameManager == null || gameManager.CurrentGameState != GameState.Exploring) return;
 
             // Detect tap/click
             if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))

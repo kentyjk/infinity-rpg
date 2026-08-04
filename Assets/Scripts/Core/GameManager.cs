@@ -354,5 +354,10 @@ namespace InfinityRPG
         /// Public accessor for GameConfig (used by subsystems).
         /// </summary>
         public GameConfig Config => config;
+
+        /// <summary>
+        /// Set config at runtime (bootstrap).
+        /// </summary>
+        public void SetConfig(GameConfig c) => config = c;
     }
 }
