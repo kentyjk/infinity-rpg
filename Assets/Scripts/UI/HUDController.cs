@@ -2,8 +2,8 @@
 // HUDController.cs — Top stats bar update
 // ═══════════════════════════════════════════════════════
 
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace InfinityRPG
 {
@@ -13,16 +13,16 @@ namespace InfinityRPG
     public class HUDController : MonoBehaviour
     {
         [Header("Stat Text Fields")]
-        [SerializeField] private TextMeshProUGUI levelText;
-        [SerializeField] private TextMeshProUGUI hpText;
-        [SerializeField] private TextMeshProUGUI maxHpText;
-        [SerializeField] private TextMeshProUGUI bpText;
-        [SerializeField] private TextMeshProUGUI atkText;
-        [SerializeField] private TextMeshProUGUI defText;
-        [SerializeField] private TextMeshProUGUI agiText;
-        [SerializeField] private TextMeshProUGUI runGoldText;
-        [SerializeField] private TextMeshProUGUI bankGoldText;
-        [SerializeField] private TextMeshProUGUI expText;
+        [SerializeField] private Text levelText;
+        [SerializeField] private Text hpText;
+        [SerializeField] private Text maxHpText;
+        [SerializeField] private Text bpText;
+        [SerializeField] private Text atkText;
+        [SerializeField] private Text defText;
+        [SerializeField] private Text agiText;
+        [SerializeField] private Text runGoldText;
+        [SerializeField] private Text bankGoldText;
+        [SerializeField] private Text expText;
 
         /// <summary>
         /// Refresh all HUD fields from current state.

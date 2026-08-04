@@ -2,7 +2,6 @@
 // LevelUpPanel.cs — Stat allocation modal on level-up
 // ═══════════════════════════════════════════════════════
 
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,11 +16,11 @@ namespace InfinityRPG
         [SerializeField] private GameManager gameManager;
 
         [Header("UI References")]
-        [SerializeField] private TextMeshProUGUI spRemainingText;
-        [SerializeField] private TextMeshProUGUI hpAllocText;
-        [SerializeField] private TextMeshProUGUI atkAllocText;
-        [SerializeField] private TextMeshProUGUI defAllocText;
-        [SerializeField] private TextMeshProUGUI agiAllocText;
+        [SerializeField] private Text spRemainingText;
+        [SerializeField] private Text hpAllocText;
+        [SerializeField] private Text atkAllocText;
+        [SerializeField] private Text defAllocText;
+        [SerializeField] private Text agiAllocText;
         [SerializeField] private Button confirmButton;
 
         [Header("Allocation Counters")]

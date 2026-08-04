@@ -23,9 +23,9 @@ namespace InfinityRPG
         [SerializeField] private LevelUpPanel levelUpPanel;
         [SerializeField] private GameObject hubButtons;
         [SerializeField] private GameObject runResultPanel;
-        [SerializeField] private TMPro.TextMeshProUGUI battleLogText;
+        public UnityEngine.UI.Text battleLogText;
         [SerializeField] private GameObject toastObject;
-        [SerializeField] private TMPro.TextMeshProUGUI toastText;
+        [SerializeField] private UnityEngine.UI.Text toastText;
 
         private void Start()
         {
