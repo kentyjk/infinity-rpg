@@ -94,7 +94,7 @@ namespace InfinityRPG.Editor
             EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Gradle;
 
             // Player settings
-            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "com.infinityrpg.game");
+            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.infinityrpg.game");
             PlayerSettings.productName = "Infinity RPG";
             PlayerSettings.companyName = "InfinityRPG";
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
