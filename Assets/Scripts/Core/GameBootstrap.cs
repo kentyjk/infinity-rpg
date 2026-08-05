@@ -36,8 +36,6 @@ namespace InfinityRPG
                 return;
             }
 
-            Debug.Log("[Bootstrap] Creating game systems...");
-
             // 1. Camera
             var cam = Camera.main;
             if (cam == null)
